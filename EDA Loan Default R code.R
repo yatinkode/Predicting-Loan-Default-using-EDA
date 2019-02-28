@@ -7,8 +7,7 @@
 # Important: In loan status, the customers labelled as 'charged-off' are the 'defaulters'. 
 
 # Loading libraries
-load.libr
-aries <- c('tidyr','dplyr','lubridate','ggplot2','stringr')
+load.libraries <- c('tidyr','dplyr','lubridate','ggplot2','stringr')
 install.lib <- load.libraries[!load.libraries %in% installed.packages()]
 for(libs in install.lib) install.packages(libs, dependences = TRUE)
 sapply(load.libraries, require, character = TRUE)

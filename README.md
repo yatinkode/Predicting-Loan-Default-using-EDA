@@ -145,5 +145,155 @@ prop.table(table(loan_records_master$loan_status))*100
 sum(loan_records_master$loan_amnt) #426,161,100
 sum(loan_records_master$funded_amnt) #416,016,625
 sum(loan_records_master$funded_amnt_inv) #394,352,654
-```
 
+# Since all the three values are close, any one column will provide a good proxy for other two columns
+ggplot(loan_records_master, aes(x = loan_amnt)) +
+  geom_histogram(bins = 30, fill = "steelblue4") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  labs(x = "Loan amount",
+       y = "USD",
+       title = "Fig : Loan amount values")
+```
+![alt text](https://github.com/yatinkode/Predicting-Loan-Default-using-EDA/blob/main/images/2.png)
+```R
+ggplot (loan_records_master, aes(y = loan_amnt, x = loan_status)) + # Adding loan status
+  geom_boxplot() +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  labs( y = "USD",
+        title = "Fig : Loan status box plot")
+max(loan_records_master$loan_amnt)
+min(loan_records_master$loan_amnt)
+# The loan value varies from 500 to 35,000 with median falling around 10,000
+# Plotting the box plot of loan values against default, it is not possible to identify any 
+# trend in loan default
+```
+![alt text](https://github.com/yatinkode/Predicting-Loan-Default-using-EDA/blob/main/images/3.png)
+```R
+ggplot(loan_records_master, aes(x = term, fill = loan_status)) + # Adding loan status
+  geom_bar() +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  labs(x = "Loan amount",
+       y = "Count",
+       title = "Fig : Term of Loan with loan status" ) +
+  theme(legend.position="bottom")
+# Proportion of loans with default is higher for 60 months tenure than 36 months tenure
+```
+![alt text](https://github.com/yatinkode/Predicting-Loan-Default-using-EDA/blob/main/images/4.png)
+```R
+# We will find proportion of loan status versus term of loan. For that we create proportion table and then plot graph on that 
+
+prop_term_loan_status<-prop.table(table(loan_records_master$loan_status,loan_records_master$term),2)
+
+ggplot(as.data.frame(prop_term_loan_status), aes(x = Var2,y=Freq,fill=Var1)) +
+  geom_bar(position="stack",stat="identity") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  labs(x = "Term",y = "Percent of Loan Status",
+       title = "Fig : Proportion of Loan Status vs Terms" ) +
+  theme_loan()+
+  guides(fill=guide_legend(title="Loan Status"))+
+  scale_y_continuous(labels = scales::percent)
+
+#Here We can see that around 25% loans of 60 months have been defaulted and around 12% of loans have been defaulted for 36 months
+#Also we have seen that around 75% loans of 60 months have fully paid and around 88% of loans fully paid of 36 months
+#We observe that lesser the term period, higher the chances of full payment
+```
+![alt text](https://github.com/yatinkode/Predicting-Loan-Default-using-EDA/blob/main/images/5.png)
+```R
+ggplot(loan_records_master, aes(x = grade, fill = loan_status)) + # Adding loan status
+  geom_bar() +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  labs(x = "Loan Grade",
+       y = "Count",
+       title = "Fig : Grade of loan with Loan status") +
+  theme(legend.position="bottom")
+# Though there may be higher proportion of loan default in lower grade loans, there 
+# in no clear trend or evidence from the chart
+```
+![alt text](https://github.com/yatinkode/Predicting-Loan-Default-using-EDA/blob/main/images/6.png)
+```R
+# So we find out the percentage of defaulting and paying loan for better understanding
+prop_grade_loan_status<-prop.table(table(loan_records_master$loan_status,loan_records_master$grade),2)
+
+ggplot(as.data.frame(prop_grade_loan_status), aes(x = Var2,y=Freq,fill=Var1)) +
+  geom_bar(position="stack",stat="identity") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  labs(x = "Grade",y = "Percent of Loan Status",
+       title = "Fig : Proportion of Loan Status vs Grade" ) +
+  theme_loan()+
+  guides(fill=guide_legend(title="Loan Status"))+
+  scale_y_continuous(labels = scales::percent)
+```
+![alt text](https://github.com/yatinkode/Predicting-Loan-Default-using-EDA/blob/main/images/7.png)
+```R
+ggplot(loan_records_master, aes(x = emp_length, fill = loan_status)) + # Adding loan status
+  geom_bar() +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  labs(x = "Employement Duration",
+       y = "Count",
+       title = "Fig 1: Duration of Employement with Loan status") +
+  theme(legend.position="bottom")
+# Once again the chart plotted is inconlusive about the relation of default with employment duration
+```
+![alt text](https://github.com/yatinkode/Predicting-Loan-Default-using-EDA/blob/main/images/8.png)
+```R
+prop_loan_status_emp_length<-prop.table(table(loan_records_master$loan_status,loan_records_master$emp_length),2)
+
+ggplot(as.data.frame(prop_loan_status_emp_length), aes(x = Var2,y=Freq,fill=Var1)) +
+  geom_bar(position="stack",stat="identity") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  labs(x = "Employment Duration",y = "Percent of loan Status",
+       title = "Fig : Proportion of Loan Status vs Job Experience" ) +
+  theme_loan()+
+  guides(fill=guide_legend(title="Loan Status"))+
+  scale_y_continuous(labels = scales::percent)
+
+#There is no disproportion in defaulting and making payment based on employee length
+```
+![alt text](https://github.com/yatinkode/Predicting-Loan-Default-using-EDA/blob/main/images/9.png)
+```R
+prop_loan_status_home_own<-prop.table(table(loan_records_master$loan_status,loan_records_master$home_ownership),2)
+
+ggplot(as.data.frame(prop_loan_status_home_own), aes(x = Var2,y=Freq,fill=Var1)) +
+  geom_bar(position="stack",stat="identity") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  labs(x = "Home Ownership",y = "Percent of loan Status",
+       title = "Fig 1: Proportion of Loan Status vs Home Ownership" ) +
+  theme_loan()+
+  guides(fill=guide_legend(title="Loan Status"))+
+  scale_y_continuous(labels = scales::percent)
+
+#There is no trend visible here, for Home ownership as none since there is no data available so the fully paid is showing as 100%
+```
+![alt text](https://github.com/yatinkode/Predicting-Loan-Default-using-EDA/blob/main/images/10.png)
+```R
+#lets look according to states
+prop_loan_status_state<-prop.table(table(loan_records_master$loan_status,loan_records_master$addr_state),2)
+
+
+ggplot(as.data.frame(prop_loan_status_state), aes(x = Var2,y=Freq,fill=Var1)) +
+  geom_bar(position="stack",stat="identity") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  labs(x = "State Code",y = "Percent of loan Status",
+       title = "Fig 1: Proportion of Loan Status vs States" ) +
+  theme_loan()+
+  guides(fill=guide_legend(title="Loan Status vs State"))+
+  scale_y_continuous(labels = scales::percent)+
+  theme(axis.text.x=element_text(angle=90))
+#There is high proportion for defaulting for state NE in comparision to another states
+```
+![alt text](https://github.com/yatinkode/Predicting-Loan-Default-using-EDA/blob/main/images/11.png)
+```R
+prop_loan_status_purpose<-prop.table(table(loan_records_master$loan_status,loan_records_master$purpose),2)
+
+ggplot(as.data.frame(prop_loan_status_purpose), aes(x = Var2,y=Freq,fill=Var1)) +
+  geom_bar(position="stack",stat="identity") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  labs(x = "Purpose",y = "Percent of loan Status",
+       title = "Fig 1: Proportion of Loan Status vs Purpose of Loan" ) +
+  theme_loan()+
+  guides(fill=guide_legend(title="Loan Status"))+
+  scale_y_continuous(labels = scales::percent)+
+  theme(axis.text.x=element_text(angle=90))
+#We can observe that loan for small business are highest defaulters
+```
+![alt text](https://github.com/yatinkode/Predicting-Loan-Default-using-EDA/blob/main/images/12.png)

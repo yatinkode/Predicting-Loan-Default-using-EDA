@@ -136,7 +136,7 @@ ggplot(loan_records_master, aes(x = loan_status )) + # Identify the extent of de
        y = "Count",
        title = "Fig 1: Loan Request Status")
 ```
-
+![alt text](https://github.com/yatinkode/Predicting-Loan-Default-using-EDA/blob/main/images/1.png)
 ```R
 prop.table(table(loan_records_master$loan_status))*100
 # Approximately 15% loans have defaulted 

@@ -281,7 +281,7 @@ ggplot(as.data.frame(prop_loan_status_state), aes(x = Var2,y=Freq,fill=Var1)) +
   theme(axis.text.x=element_text(angle=90))
 #There is high proportion for defaulting for state NE in comparision to another states
 ```
-![alt text](https://github.com/yatinkode/Predicting-Loan-Default-using-EDA/blob/main/images/11.png)
+![alt text](https://github.com/yatinkode/Predicting-Loan-Default-using-EDA/blob/main/images/12.png)
 ```R
 prop_loan_status_purpose<-prop.table(table(loan_records_master$loan_status,loan_records_master$purpose),2)
 
@@ -296,4 +296,4 @@ ggplot(as.data.frame(prop_loan_status_purpose), aes(x = Var2,y=Freq,fill=Var1)) 
   theme(axis.text.x=element_text(angle=90))
 #We can observe that loan for small business are highest defaulters
 ```
-![alt text](https://github.com/yatinkode/Predicting-Loan-Default-using-EDA/blob/main/images/12.png)
+![alt text](https://github.com/yatinkode/Predicting-Loan-Default-using-EDA/blob/main/images/13.png)

@@ -13,7 +13,7 @@ The data given below contains the information about past loan applicants and whe
 
 Lets start the code
 
-### Loading Libraruies and theme for ggplot
+### Loading Libraries and theme for ggplot
 ```R
 # Loading libraries
 load.libraries <- c('tidyr','dplyr','lubridate','ggplot2','stringr')
